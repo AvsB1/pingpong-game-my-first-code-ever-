@@ -1,0 +1,143 @@
+import pygame
+import sys
+import pygame
+import random
+
+
+
+#pygame settings
+pygame.init()
+screen = pygame.display.set_mode((720, 720))
+pygame.display.set_caption("game")
+mainClock = pygame.time.Clock()
+FPS = 200
+
+#colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+GRAY = (100, 100, 100)
+
+#constantes e etc
+y = random.randint (0, 57)*10
+y2 = y + 75
+x2 = 345
+y3 = y
+
+player2 = (False) #if True, 2 players mode will be active
+dballhorizontal = (True)
+dballvertical = random.choice([True, False])
+
+a = 1
+a2 = 1
+b = 0.5
+
+
+bot = pygame.draw.rect(screen, WHITE, (670, y2 - 75, 50, 150))
+
+#while true
+while True:
+
+       
+
+    screen.fill("black")
+    
+    #draw everything
+    pygame.draw.rect(screen, GRAY, (340, 0, 10, 720))
+    pygame.draw.rect(screen, WHITE, (0, y, 50, 150))
+    pygame.draw.circle(screen, WHITE, (x2, y2,), 30)
+
+    player = pygame.draw.rect(screen, WHITE, (0, y, 50, 150))
+    ball = pygame.draw.circle(screen, WHITE, (x2, y2,), 30)
+    if player2 == (True):
+        bot = pygame.draw.rect(screen, WHITE, (670, y3, 50, 150))
+    else:  
+        bot = pygame.draw.rect(screen, WHITE, (670, y2 - 75, 50, 150))
+
+    #player 
+    key = pygame.key.get_pressed()
+    if key [pygame.K_s]:
+        y += 3
+    if key [pygame.K_w]:
+        y -= 3
+    if y < 0:
+        y += 3
+    if y > 570:
+        y -= 3
+
+    #player2
+    key = pygame.key.get_pressed()
+    if key [pygame.K_DOWN]:
+        y3 += 3
+    if key [pygame.K_UP]:
+        y3 -= 3
+    if y3 < 0:
+        y3 += 3
+    if y3 > 570:
+        y3 -= 3
+
+    #ball
+    a += 0.0001
+    if 40 < 5*a:
+        a = 8
+
+    if dballhorizontal == (True):
+        x2 +=2*a
+
+    else:
+        x2 -=2*a
+
+    a
+    if dballvertical == (True):
+        y2 += b*a
+    else:
+        y2 -= b*a
+
+
+
+
+
+
+
+
+    #collide
+    if ball.colliderect(bot):
+        dballhorizontal = (False)
+        b = random.uniform(0.1, 4)
+    if ball.colliderect(player):
+        dballhorizontal = (True)
+        b = random.uniform(0.1, 4)
+    if y2 < 30:
+        dballvertical =(True)
+    if y2 > 690:
+        dballvertical =(False)
+
+
+
+
+
+
+
+
+
+
+
+    if x2 < 0:
+        pygame.quit()
+        print ("Player 2 win")
+        sys.exit()
+
+    if x2 > 720:
+        pygame.quit()
+        print ("Player 1 win")
+        sys.exit()
+
+
+
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    mainClock.tick(FPS)
+    pygame.display.update()
